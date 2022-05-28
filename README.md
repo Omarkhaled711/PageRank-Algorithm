@@ -1,9 +1,14 @@
-#1. PageRank Algorithm:
+# 1. PageRank Algorithm:
+
 The PageRank Algorithm expresses the importance of a web page as a score, and for any web page, the score has to be a positive number. The main idea of the PageRank algorithm is that a good page refers to another good page, and for a good page, there’re a lot of good pages that may refer to it (recursive formula). To rank web pages, the number of incoming and outgoing links must be taken into consideration; to end up with this formula:
 $$r_{j}= \sum_{i\rightarrow j} \frac{r_{i}}{d_{i}} $$
+
 $r_{j}$: the rank of page $j$ 
+
 $r_{i}$: the rank of page $i$
+
 $d_{i}$: represents the number of outgoing links of $i$
+
 $i$: every node that has an outgoing link in $j$
 
 ## 1.1 Applying on an example
@@ -17,27 +22,24 @@ $$r_{4}=\frac{r_{1}}{3}+\frac{r_{2}}{2}$$
 
 # 2.Matrix Formulation
 The graph can be represented as an adjacency matrix that is column stochastic, which means that all columns must add up to 1.
-$$
-\text{If } j\rightarrow i \text{, then } M_{ij}=\frac{1}{d_{j}}
-$$
+
+If $j\rightarrow i \$, then
+$$M_{ij}=\frac{1}{d_{j}} $$ 
+
 and the summation of the page ranks should converge at 1
-$$
-\sum_{i} r_{i}=1
-$$
+$$\sum_{i} r_{i}=1 $$
 $r_{i}$: the rank of page $i$
 
 This means that the PageRank vector can be written in the following form 
 $$r=M.r$$
-It can be seen from the above equation that the PageRank vector is the eigenvector of the    stochastic matrix $M$, where the eigenvalue $\lambda=1$
+It can be seen from the above equation that the PageRank vector is the eigenvector of the stochastic matrix $M$, where the eigenvalue $\lambda=1$
 # 3. Power Method:
 The power method is an iterative method where:
 
-start: $ r^{0}=\begin{bmatrix}
-\frac{1}{N} & \frac{1}{N} & \dots & \frac{1}{N}
-\end{bmatrix}
- ^{T}
-$
+start: $ r^{0}=\begin{bmatrix} \frac{1}{N} & \frac{1}{N} & \dots & \frac{1}{N} \end{bmatrix} ^{T} $
+
 iterative step: $r^{t+1}=Mr^{t}$
+
 stop: $\left\lvert r^{t+1}-r^{t} \right\rvert < \epsilon$, where  $\epsilon$ is the desired tolerance.
 
 # 4.Problems:
@@ -49,11 +51,11 @@ The rank sink case is when all the out-links are pointing to nodes from the same
 ### 4.1.1 Solution (Random Jump method):
 <img src="/images/RankSinkSol.png" alt="Example" width="200"/>
 
-If the surfer gets stuck in the rank sink problem, one way to solve this problem is teleporting to a random node now and then. This can be achieved by creating virtual links that the surfer can follow  –as shown in the above figure by the green arrows – the probability of the surfer following the virtual links $(1-\beta)$ should be a lot less when comparing it to that of the actual out-links; so the ranks won’t be affected.
-$$
-A= \beta M+(1-\beta)\left[\frac{1}{N}\right]_{N \times N}
-$$
+If the surfer gets stuck in the rank sink problem, one way to solve this problem is teleporting to a random node now and then. This can be achieved by creating virtual links that the surfer can follow  –as shown in the above figure by the green arrows – the probability of the surfer following the virtual links $(1-\beta)$ should be a lot less when comparing it to that of the actual out-links $(\beta)$; so the ranks won’t be affected.
+$$A= \beta M+(1-\beta)\left[\frac{1}{N}\right]_{N \times N}$$
+
 A: modified matrix
+
 $\beta$: between 0.8 and 0.9
 
 When applying the random jump method to an ideal case problem (that doesn't result in the rank sink) It doesn't affect the ranks and gives very good approximations. That means that the algorithm doesn’t have to explicitly check whether the matrix contains a rank sink problem or not, and just applies the random jump to all test cases.
